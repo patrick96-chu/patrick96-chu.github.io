@@ -28,8 +28,8 @@ In brief: pick up *samples* (indented rectangular prisms) from the center area a
 ## Engineering Portfolio
 As a part of our engineering awards submission, I created this engineering portfolio's mechanical design portion, including robot functionality, innovation, and engineering process.
 
-<iframe src="/assets/Hypernova 28596 2024-2025 Portfolio MTI.pdf" width="100%" height="800px" style="border: none;">
-    This browser does not support PDFs. Please download the PDF to view it: <a href="/assets/Hypernova 28596 2024-2025 Portfolio MTI.pdf">Download PDF</a>.
+<iframe src="./assets/Hypernova 28596 2024-2025 Portfolio MTI.pdf" width="100%" height="800px" style="border: none;">
+    This browser does not support PDFs. Please download the PDF to view it: <a href="./assets/Hypernova 28596 2024-2025 Portfolio MTI.pdf">Download PDF</a>.
 </iframe>
 
 This page is a work in progress! Check back later for more.

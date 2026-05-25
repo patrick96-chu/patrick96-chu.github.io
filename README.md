@@ -17,7 +17,7 @@ Welcome to my portfolio! I'm currently an undergrad studying EECS at MIT, and I'
 
 * **Summary:** As the captain and mechanical lead for this skunkworks-type team of seniors, I designed and optimized a highly innovative, top-performing robot adaptable to any situation on the field. We ranked #3 overall in the world and placed on the podium in multiple prestigious international competitions.
 * **Skills:** Fusion 360 CAD, Physics-motivated Design and Optimization, CNC Sheet Carbon Fiber-Reinforced Plastic (CFRP), FDM 3D-Printing, Java
-* **[Learn More](https://patrick96-chu.github.io/featured_projects/ftc_itd_robot.html)**
+* **[Learn More](https://patrick96-chu.github.io/featured-projects/ftc-itd-robot.html)**
 
 <img src="/assets/CS Robot Render.png" width="800" alt="CS Robot Render">
 
