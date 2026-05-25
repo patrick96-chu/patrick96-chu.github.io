@@ -1,6 +1,6 @@
 ---
 layout: default
-title: FTC: Into The Deep
+title: FTC Into The Deep
 parent: Featured Projects
 ---
 
