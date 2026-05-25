@@ -9,13 +9,15 @@ Welcome to my portfolio! I'm currently an undergrad studying EECS at MIT, and I'
 
 ## Featured Projects
 
-<img src="/ITD Robot Render 5.png" width="1000" alt="ITD Robot Render">
+<img src="/ITD Robot Render 5.png" width="800" alt="ITD Robot Render">
 
 ### FIRST Tech Challenge 2024-2025: Into The Deep ([28596 Hypernova](https://sites.google.com/view/hypernova28596/home))
 
 * **Summary:** As the captain and mechanical lead for this skunkworks-type team of seniors, I designed and optimized a highly innovative, top-performing robot adaptable to any situation on the field. We ranked #3 overall in the world and placed on the podium in multiple prestigious international competitions.
 * **Skills:** Fusion 360 CAD, Physics-motivated Design and Optimization, CNC Sheet Carbon Fiber-Reinforced Plastic (CFRP), FDM 3D-Printing, Java
 * **Learn More**
+
+<img src="/CS Robot Render.png" width="800" alt="CS Robot Render">
 
 ### FIRST Tech Challenge 2023-2024: CenterStage ([9614 Hyperion](https://sites.google.com/view/hyperion9614/seasons/2023-2024-season))
 * **Summary:** As the army-of-one captain of the team, with little prior experience, I self-learned mechanical design, electronics, and robotics programming to create a consistent record-setting robot that took the team to new heights. We ranked #5 overall in the world and placed as a finalist in the two most prestigious worldwide competitions.
