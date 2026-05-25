@@ -5,30 +5,19 @@ nav_order: 1
 permalink: /
 ---
 
+# Home
+
 Welcome to my portfolio! I'm currently an undergrad studying EECS at MIT, and I'm especially interested in Mechatronics.
 
 ## Featured Projects
 
-<div style="
-  display: inline-block;
-  max-width: 100%;
-  mask-image: 
-    linear-gradient(to bottom, transparent, black 5%, black 95%, transparent),
-    linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-  mask-composite: intersect;
-  -webkit-mask-image: 
-    linear-gradient(to bottom, transparent, black 5%, black 95%, transparent),
-    linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-  -webkit-mask-composite: source-in;
-">
-  <img src="/ITD Robot Render 5.png" width="800" alt="ITD Robot Render">
-</div>
+<img src="/ITD Robot Render 5.png" width="800" alt="ITD Robot Render">
 
 ### FIRST Tech Challenge 2024-2025: Into The Deep ([28596 Hypernova](https://sites.google.com/view/hypernova28596/home))
 
 * **Summary:** As the captain and mechanical lead for this skunkworks-type team of seniors, I designed and optimized a highly innovative, top-performing robot adaptable to any situation on the field. We ranked #3 overall in the world and placed on the podium in multiple prestigious international competitions.
 * **Skills:** Fusion 360 CAD, Physics-motivated Design and Optimization, CNC Sheet Carbon Fiber-Reinforced Plastic (CFRP), FDM 3D-Printing, Java
-* **Learn More**
+* **[Learn More](https://patrick96-chu.github.io/featured_projects/ftc_itd_robot.html)**
 
 <img src="/CS Robot Render.png" width="800" alt="CS Robot Render">
 
