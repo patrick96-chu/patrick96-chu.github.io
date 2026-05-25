@@ -1,7 +1,7 @@
 ---
 layout: default
-title: FTC Into The Deep
-parent: Featured Projects
+title: FTC: Into The Deep
+parent: featured-projects
 ---
 
 # FIRST Tech Challenge 2024-2025: Into The Deep
