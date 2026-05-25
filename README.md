@@ -11,8 +11,15 @@ Welcome to my portfolio! I'm currently an undergrad studying EECS at MIT, and I'
 
 <div style="
   display: inline-block;
-  mask-image: radial-gradient(circle, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
-  -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+  max-width: 100%;
+  mask-image: 
+    linear-gradient(to bottom, transparent, black 5%, black 95%, transparent),
+    linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  mask-composite: intersect;
+  -webkit-mask-image: 
+    linear-gradient(to bottom, transparent, black 5%, black 95%, transparent),
+    linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  -webkit-mask-composite: source-in;
 ">
   <img src="/ITD Robot Render 5.png" width="800" alt="ITD Robot Render">
 </div>
