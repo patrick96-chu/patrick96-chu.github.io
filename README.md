@@ -11,7 +11,7 @@ Welcome to my portfolio! I'm currently an undergrad studying EECS at MIT, and I'
 
 ## Featured Projects
 
-<img src="/ITD Robot Render 5.png" width="800" alt="ITD Robot Render">
+<img src="/assets/ITD Robot Render 5.png" width="800" alt="ITD Robot Render">
 
 ### FIRST Tech Challenge 2024-2025: Into The Deep ([28596 Hypernova](https://sites.google.com/view/hypernova28596/home))
 
@@ -19,7 +19,7 @@ Welcome to my portfolio! I'm currently an undergrad studying EECS at MIT, and I'
 * **Skills:** Fusion 360 CAD, Physics-motivated Design and Optimization, CNC Sheet Carbon Fiber-Reinforced Plastic (CFRP), FDM 3D-Printing, Java
 * **[Learn More](https://patrick96-chu.github.io/featured_projects/ftc_itd_robot.html)**
 
-<img src="/CS Robot Render.png" width="800" alt="CS Robot Render">
+<img src="/assets/CS Robot Render.png" width="800" alt="CS Robot Render">
 
 ### FIRST Tech Challenge 2023-2024: CenterStage ([9614 Hyperion](https://sites.google.com/view/hyperion9614/seasons/2023-2024-season))
 * **Summary:** As the army-of-one captain of the team, with little prior experience, I self-learned mechanical design, electronics, and robotics programming to create a consistent record-setting robot that took the team to new heights. We ranked #5 overall in the world and placed as a finalist in the two most prestigious worldwide competitions.
