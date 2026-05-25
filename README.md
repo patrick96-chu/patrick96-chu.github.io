@@ -1,4 +1,10 @@
-# Hi, I'm Patrick. 
+---
+layout: default
+title: Home
+nav_order: 1
+permalink: /
+---
+
 Welcome to my portfolio! I'm currently an undergrad studying EECS at MIT, and I'm especially interested in Mechatronics.
 
 ## Featured Projects
