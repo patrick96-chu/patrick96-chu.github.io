@@ -2,6 +2,7 @@
 layout: default
 title: FTC Into The Deep
 parent: Featured Projects
+nav_order: 1
 ---
 
 # FIRST Tech Challenge 2024-2025: Into The Deep
@@ -29,12 +30,17 @@ A project building a land-based 18" x 18" x 18" mobile robot to interact with ga
 
 *Maryland Tech Invitational Eliminiation Match 11; World Record Match Score #2*
 
+## Team Website
+See the linked website for more about our team, contributions to this project, and the full list of achievements:
+
+[Website](https://sites.google.com/view/hypernova28596/home)
+
 ## Project Objective
 Design and program a robot, following all construction rules, to score points according to the game definitions. 
 
 In brief: pick up *samples* (indented rectangular prisms) from the center area and either score them into the tall *baskets* in the corners, or convert them to *specimens* by adding a *clip*, then hook the *specimens* onto the horizontal *chamber* poles in the center area.
 
-[A more detailed game animation (5 minute watch)](https://www.youtube.com/watch?v=ewlDPvRK4U4)
+[A more detailed game animation (5 minute watch)](https://youtu.be/ewlDPvRK4U4?t=69)
 
 [The complete season rulebook](https://ftc-resources.firstinspires.org/ftc/archive/2025/game/manual)
 
