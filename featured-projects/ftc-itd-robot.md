@@ -16,6 +16,19 @@ A project building a land-based 18" x 18" x 18" mobile robot to interact with ga
 1. TOC
 {:toc}
 
+## Project Demo
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 8px;">
+  <iframe 
+    src="https://www.youtube.com/embed/hsVg6Kb8sZw?si=4_MGfIrbboYJjT3A" 
+    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    allowfullscreen>
+  </iframe>
+</div>
+
+*Maryland Tech Invitational Eliminiation Math 11; World Record Match Score #2*
+
 ## Project Objective
 Design and program a robot, following all construction rules, to score points according to the game definitions. 
 
@@ -25,10 +38,10 @@ In brief: pick up *samples* (indented rectangular prisms) from the center area a
 
 [The complete season rulebook](https://ftc-resources.firstinspires.org/ftc/archive/2025/game/manual)
 
-## Engineering Portfolio
+## Engineering Process / Portfolio
 As a part of our engineering awards submission, I created this engineering portfolio's mechanical design portion, including robot functionality, innovation, and engineering process.
 
-<iframe src="/assets/Hypernova 28596 2024-2025 Portfolio Hardware.pdf" width="100%" height="800px" style="border: none;">
+<iframe src="/assets/Hypernova 28596 2024-2025 Portfolio Hardware.pdf" width="100%" height="600px" style="border: none;">
     This browser does not support PDFs. Please download the PDF to view it: <a href="/assets/Hypernova 28596 2024-2025 Portfolio Hardware.pdf">Download PDF</a>.
 </iframe>
 
