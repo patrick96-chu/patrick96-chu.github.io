@@ -27,7 +27,7 @@ A project building a land-based 18" x 18" x 18" mobile robot to interact with ga
   </iframe>
 </div>
 
-*Maryland Tech Invitational Eliminiation Math 11; World Record Match Score #2*
+*Maryland Tech Invitational Eliminiation Match 11; World Record Match Score #2*
 
 ## Project Objective
 Design and program a robot, following all construction rules, to score points according to the game definitions. 
