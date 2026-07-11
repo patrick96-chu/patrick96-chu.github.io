@@ -41,6 +41,9 @@ Welcome to my portfolio! I'm an MIT EECS undergrad particularly interested in Me
 * **Skills:** Minispec/Bluespec, C
 
 ### MIT Arcturus Marine Robotics Team: EE / EE Lead (Sep. 2025 - Present)
+
+<img src="/assets/MIT Arcturus Main Power.png" width="600" alt="Main Power Board">
+
 * **Summary:** I designed and assembled various PCBs to improve reliability and usuability for an autonomous boat's electrical system (primarily concerned with power delivery), including a SD card data-logging board, thruster power contactor (switch) driver, and a main power board for the control system.
 * **Skills:** Altium Designer PCB Design, PCB Assembly (SMT, THT soldering), Mixed-Signal Design, DC-DC conversion, C
 
