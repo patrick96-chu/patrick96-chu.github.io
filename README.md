@@ -44,6 +44,8 @@ Welcome to my portfolio! I'm an MIT EECS undergrad particularly interested in Me
 
 <img src="/assets/MIT Arcturus Main Power.png" width="600" alt="Main Power Board">
 
+#### *Boat's main power conversion board: Battery 22V -> 3.3V, 5V, 12V, 19V with current sensing*
+
 * **Summary:** I designed and assembled various PCBs to improve reliability and usuability for an autonomous boat's electrical system (primarily concerned with power delivery), including a SD card data-logging board, thruster power contactor (switch) driver, and a main power board for the control system.
 * **Skills:** Altium Designer PCB Design, PCB Assembly (SMT, THT soldering), Mixed-Signal Design, DC-DC conversion, C
 
