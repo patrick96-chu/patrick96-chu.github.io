@@ -1,11 +1,11 @@
 ---
 layout: default
-title: NASDAQ ITCH Parser + Order Book
+title: FPGA Order Book
 parent: Featured Projects
 nav_order: 1
 ---
 
-# FPGA NASDAQ ITCH Parser + Order Book Constructor
+# FPGA NASDAQ ITCH Parser + Order Book
 
 *Source code, SystemVerilog modules, and Cocotb testbenches are available on [GitHub](https://github.com/patrick96-chu/nasdaq-itch-parser-order-book).*
 
@@ -35,7 +35,7 @@ A SystemVerilog project designing an FPGA design to parse the NASDAQ ITCH 5.0 pr
 
 In high-frequency trading (HFT), firms must process incoming market data and calculate orders to send back to the exchange's matching engine. Latency is critical here; a firm that has a shorter tick-to-trade latency is able to capture a better price / queue position. A traditional CPU-based approach processes sequentially through an OS stack, leading to latency spikes on cache misses, context switches, etc. Meanwhile, a hardware-based approach with FPGAs can process data in parallel and directly on the silicon, cutting down latency from microseconds/milliseconds to nanoseconds. 
 
-## Table of contents
+## Table of Contents
 {: .no_toc .text-delta }
 
 1. TOC
@@ -100,63 +100,63 @@ Furthermore, to resolve the issue of byte offset, we keep a 12-byte sliding wind
 
 Another possible solution is to allow the message length fields of the MoldUDP64 packets to pass to the ITCH parser, allowing the ITCH parser to keep track of bytes left in the message, determining the beginning of the next message length field and ITCH message accordingly. To avoid needing to parse content from multiple messages in a cycle, we still employ the sliding window from solution 1 by delaying the processing of the first few bits of the second message for a cycle, but not delaying later bytes of the message for no impact on the latency. Furthermore, enlarging the sliding window to cover the whole message allows for all fields to be extracted at once.
 
-### L3 order book
+### L3 Order Book
 
 Some kind of data structure is necessary to keep track of individual orders for fast lookup by order ID. During order execute, cancel, delete, and replace messages, the price and/or quantity of the order must be quickly accessible.
 
-#### Total capacity
+#### Total Capacity
 
 A typical equity sees hundreds to thousands of resting orders (individual orders that must be tracked by the L3 book), and may spike to 10,000+ orders at certain times of the day (mega-cap). Thus, the total effective capacity of the L3 book for this project should be at least several thousand to handle all but the largest-cap stocks.
 
-#### Order ID hash collision
+#### Order ID Hash Collision
 
 It is almost certain that multiple order IDs simultaneously exist in the book with the same hash. Therefore, taking inspiration from cache structure, we implement an 8-way, $(N \geq 2000)$-set associative memory structure. Furthermore, we add a small content-addressable memory (CAM) to handle any overflows if more than 8 existing orders share the same hash. It was later determined that $N = 2048$ was the maximum power of 2 meeting timing constraints.
 
 Note that actually reaching the total 8N capacity given by this structure is nearly impossible because too many hash collisions would occur; using a Poisson model, the maximum safe load is approximately 5000 (expected overflow = 2.6 orders).
 
-#### Timing constraint / pipelining
+#### Timing Constraint / Pipelining
 
 Due to the high frequency required for this purpose, the selection logic for the large memory primitive macro (XPM_MEMORY_SDPRAM) itself has a 1-cycle read latency internally, followed by a custom 1 cycle latency for write-read bypassing and muxing from internal memory latches to the output. Then, the order ID comparison should be done the following cycle for a total L3 operation latency of 3. The order ID hash should be sent 2 cycles earlier from the ITCH decoder to facilitate pre-fetching of the hash table line.
 
-### BBO extraction
+### BBO Extraction
 
 For fast retrieval of the top of the book, we store the top 2 aggregated price / shares orders in registers (note that storing the top 2 levels guarantees immediate output of the top price level after the order). The following algorithm outlines how to update these registers on a new order. WLOG, we consider only the bid / buy orders:
 
-#### Add order / Replace's add
+#### Add Order / Replace's Add
 
 Compare the price of the new add order against the existing top 2 bids. If a match exists, add the shares to the same entry. Otherwise, choose the slot of the highest bid lower the price of the newest order to insert a new entry in (shift lower prices down 1 register).
 
-#### Execute / Cancel / Delete order
+#### Execute / Cancel / Delete Order
 
 Search for any matches in the existing top 2 bids. If a match exists, subtract the shares from the same entry. If the resulting number of shares is 0 (the price level has been depleted), shift the lower bids up 1 register, and send a request to the L2 price ladder to fetch the new 2nd best bid.
 
-### L2 price table
+### L2 Price Table
 
 A memory structure containing aggregate orders (total # of shares at each price) is necessary to faciliate fast retrieval of the next best buy/sell price when the best price is depleted; searching through all orders is too slow and introduces latency spikes. To facilitate the lookup itself, a wide register indicating whether any shares exist at each particular price level can determine the next best price via masking and priority encoding. The larger memory structure serves to update this register array. Because each order requires modifying the number of shares at a particular price, we require constant time access by price.
 
-### Priority-Encoding existence array
+### Priority-Encoding Existence Array
 
 Since we wish to determine the best level after an already-known level, we can take in the already-known level as an input and mask out all undesired existences. Then, we use a priority encoder to find the index of the best existence within the masked levels.
 
 After some timing testing, it was determined that the masking + priority encoding needed to be split into two cycles; masking + encoding within smaller blocks, then encoding across blocks + address decoding for memory lookup.
 
-### Latency / special cases
+### Latency / Special Cases
 
 The minimum interval between possible depletions of the BBO is 4 idle cycles (exclusive) between the arrival of consecutive delete orders (which have the shortest length at 19 bytes (21 including message length field)). Therefore, to avoid needing to delay processing of any orders, the L2 search and BBO population must be completed in these 4 idle cycles to avoid complicating logic for updating the BBO.
 
 Note that the next best price level must always be less than (buy-side)/greater than (sell-side) the worst price level existing in the BBO, so we continuously calculate the next best price level even before the BBO receives the order that would cause a depletion.
 
-#### Tick size
+#### Tick Size
 
 Prices sent over the ITCH protocol are expressed as 32 bit integers equal to 10^4 times the actual price, such that incrementing the price field corresponds to an increment of 0.01 cents. However, stocks priced above $1 per share have a minimum increment of 1 cent/0.5 cents. It is more interesting/nuanced to design for a tick size of 0.5 cents (note that migrating to a tick size of 1 cent would be as simple as changing the price-ordering mapping, leading to a doubled price range, and should not impact timing).
 
 Since it would cost an excessive amount of memory space to maintain tick sizes of 0.01 cents when at most only one slot every 50 ticks are actually used, we require a mapping of integers divisible by 50 to a continuous integer range (see address mapping below).
 
-#### Tick offset
+#### Tick Offset
 
 Because most orders exist close to the top of the book $\pm$ a few dollars, and orders outside this range are highly unlikely to require BBO access, a typical architecture would feature a sliding window that only captures the smaller range at the top of the book, and store the remaining L2 orders elsewhere (e.g. a CAM or directly iterating through the L3 table in the unlikely event the window needs to shift). To keep the maximum latency low and to keep this project in scope, we only implement a static window with a initializable tick offset provided by the test bench, and assert an error if the BBO moves outside of this range.
 
-#### Address mapping
+#### Address Mapping
 
 As previously mentioned, for stocks priced above 1 dollar per share, the tick size is 0.5 cents or 1 cent. To cover both of these cases, we design for a configuration with tick size of 0.5 cents. Then considering the tick offset, we require a bijective function to map the following sets: ${OFFSET_BASE + 50 * k} \to {k}$ for integer $k \in [0, L2_SIZE - 1]$ (not necessarily in this order). This serves to calculate the address to access the L2 memory structure with.
 
