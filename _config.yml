@@ -5,5 +5,7 @@ remote_theme: just-the-docs/just-the-docs
 search_enabled: false
 color_scheme: custom_dark
 
+math: true
+
 plugins:
   - jekyll-redirect-from
