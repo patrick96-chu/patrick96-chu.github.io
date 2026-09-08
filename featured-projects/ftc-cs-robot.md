@@ -2,7 +2,7 @@
 layout: default
 title: FTC Centerstage
 parent: Featured Projects
-nav_order: 2
+nav_order: 3
 ---
 
 # FIRST Tech Challenge 2023-2024: Centerstage
