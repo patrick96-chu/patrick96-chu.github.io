@@ -72,7 +72,7 @@ In high-frequency trading (HFT), firms must process incoming market data and cal
 ### L2 Price Table
 - Receives initialized price_base from top level input
 - Receives lookup_dec_book from L3 Order Table
-- Maintains record of shares at each price tick in the range $\left[ \mathtt{price_base}, \mathtt{price_base} + \mathtt{tick_size} \cdot (\mathtt{L2_MEM_SIZE} - 1) \right)$
+- Maintains record of shares at each price tick in the range $\left[ \mathtt{price\\_base}, \mathtt{price\\_base} + \mathtt{tick\\_size} \cdot (\mathtt{L2\\_MEM\\_SIZE} - 1) \right)$
     - Maintains register of existence of shares at each price tick
     - This architecture is further discussed in the Tradeoffs & Design Choices section below
 - Supplies BBO with next-best price level & shares upon depletion of a price level in the BBO
