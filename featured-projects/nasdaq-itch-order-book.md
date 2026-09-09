@@ -72,7 +72,7 @@ In high-frequency trading (HFT), firms must process incoming market data and cal
 ### L2 Price Table
 - Receives initialized price_base from top level input
 - Receives lookup_dec_book from L3 Order Table
-- Maintains record of shares at each price tick in the range $[price_base, price_base + tick_size \cdot (\text{L2_MEM_SIZE} - 1)]$
+- Maintains record of shares at each price tick in the range $\[price_base, price_base + tick_size \cdot (\text{L2_MEM_SIZE} - 1))$
     - Maintains register of existence of shares at each price tick
     - This architecture is further discussed in the Tradeoffs & Design Choices section below
 - Supplies BBO with next-best price level & shares upon depletion of a price level in the BBO
@@ -148,7 +148,7 @@ Note that the next best price level must always be less than (buy-side)/greater 
 
 #### Tick Size
 
-Prices sent over the ITCH protocol are expressed as 32 bit integers equal to 10^4 times the actual price, such that incrementing the price field corresponds to an increment of 0.01 cents. However, stocks priced above $1 per share have a minimum increment of 1 cent/0.5 cents. It is more interesting/nuanced to design for a tick size of 0.5 cents (note that migrating to a tick size of 1 cent would be as simple as changing the price-ordering mapping, leading to a doubled price range, and should not impact timing).
+Prices sent over the ITCH protocol are expressed as 32 bit integers equal to $10^4$ times the actual price, such that incrementing the price field corresponds to an increment of 0.01 cents. However, stocks priced above $1 per share have a minimum increment of 1 cent or 0.5 cents. It is more interesting/nuanced to design for a tick size of 0.5 cents (note that migrating to a tick size of 1 cent would be as simple as changing the price-ordering mapping, leading to a doubled price range, and should not impact timing).
 
 Since it would cost an excessive amount of memory space to maintain tick sizes of 0.01 cents when at most only one slot every 50 ticks are actually used, we require a mapping of integers divisible by 50 to a continuous integer range (see address mapping below).
 
@@ -158,7 +158,7 @@ Because most orders exist close to the top of the book $\pm$ a few dollars, and 
 
 #### Address Mapping
 
-As previously mentioned, for stocks priced above 1 dollar per share, the tick size is 0.5 cents or 1 cent. To cover both of these cases, we design for a configuration with tick size of 0.5 cents. Then considering the tick offset, we require a bijective function to map the following sets: ${OFFSET_BASE + 50 * k} \to {k}$ for integer $k \in [0, L2_SIZE - 1]$ (not necessarily in this order). This serves to calculate the address to access the L2 memory structure with.
+As previously mentioned, for stocks priced above 1 dollar per share, the tick size is 0.5 cents or 1 cent. To cover both of these cases, we design for a configuration with tick size of 0.5 cents. Then considering the tick offset, we require a bijective function to map the following sets: $\{\text{OFFSET_BASE} + 50 k\} \to {k}$ for integer $k \in [0, \text{L2_SIZE} - 1]$ (not necessarily in this order). This serves to calculate the address to access the L2 memory structure with.
 
 **Option 1**: The obvious solution is to subtract OFFSET_BASE and divide by 50. Division by 50 (which is not a power of 2) would cost significant logic, and have a latency of around 1-2 cycles. Since the latency of the L2 book affects the latency during BBO depletions (the L2 register array must be updated to the same state as what the BBO received before a next best bid/offer lookup may occur), this option may be too expensive latency-wise, especially since no other work is possible to be done in parallel.
 
