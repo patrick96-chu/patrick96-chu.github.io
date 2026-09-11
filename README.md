@@ -7,7 +7,7 @@ permalink: /
 
 # Home
 
-Welcome to my portfolio! I'm an MIT EECS undergrad particularly interested in Mechatronics.
+Welcome to my portfolio! I'm an MIT EECS undergrad interested in Mechatronics and Computer Engineering.
 
 ## Featured Projects
 
@@ -15,10 +15,10 @@ Welcome to my portfolio! I'm an MIT EECS undergrad particularly interested in Me
 
 <img src="/assets/Block Diagram 2.png" width="800" alt="Block Diagram">
 
-*SystemVerilog | Artix UltraScale+ | 312.5 MHz (16.0 ns Tick-to-Signal Latency)*
+*SystemVerilog; Artix UltraScale+; 312.5 MHz (19.2 ns Tick-to-Signal Latency)*
 
 * **Summary:** A SystemVerilog project designing a low-latency FPGA design to parse the NASDAQ ITCH 5.0 protocol and construct an order book to return the best bid and offers at any given time.
-* **Skills:** SystemVerilog, Vivado, Verilator, Cocotb, Python
+* **Skills:** SystemVerilog, Vivado, Verilator, Cocotb, GTKWave, Python
 * **[Learn More](https://patrick96-chu.github.io/featured-projects/nasdaq-itch-order-book.html)**
 
 ### FIRST Tech Challenge 2024-2025: Into The Deep (28596 Hypernova)

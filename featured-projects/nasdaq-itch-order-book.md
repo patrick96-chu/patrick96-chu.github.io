@@ -22,14 +22,14 @@ A SystemVerilog project designing an FPGA design to parse the NASDAQ ITCH 5.0 pr
 | Metric / Parameter | Specification |
 | :--- | :--- |
 | **Target Device** | AMD/Xilinx Artix UltraScale+ (xcau25p-sfvb784-2e) |
-| **Clock Frequency ($F_{\text{max}}$)** | **312.5 MHz** (3.2 ns clock period) |
+| **Clock Frequency ($F_{\text{max}}$)** | **312.5 MHz** (3.2 ns clock period), WNS = 0.000 ns |
 | **Feed Protocols** | NASDAQ ITCH 5.0 (UDP) |
 | **Ingress Bus Format** | 32-bit AXI4-Stream |
 | **Tick-to-Signal Latency** | **6 Clock Cycles (19.2 ns)** |
 | **L3 Order Book Capacity** | Hash Table: 2,048 Sets, 8 Ways (**16,384 slots**) |
 | **L3 Collision Resolution** | 8-Entry Fully Associative Spillover CAM |
 | **BBO Register Depth** | Depth-2 (Top-of-Book + Next Best) |
-| **Verification Suite** | Cocotb (Python) & Automated Scoreboard |
+| **Verification Suite** | Cocotb (Python) + Verilator & Automated Scoreboard |
 
 ### Problem Context & Hardware Motivation
 
@@ -40,6 +40,13 @@ In high-frequency trading (HFT), firms must process incoming market data and cal
 
 1. TOC
 {:toc}
+
+## Stack
+
+RTL: SystemVerilog<br>
+Simulation: Verilator 5.032, Cocotb 2.0.1, GTKWave<br>
+Timing: Vivado 2026.1<br>
+Other: Python 3.14, Pytest<br>
 
 ## System Architecture
 
@@ -72,7 +79,7 @@ In high-frequency trading (HFT), firms must process incoming market data and cal
 ### L2 Price Table
 - Receives initialized price_base from top level input
 - Receives lookup_dec_book from L3 Order Table
-- Maintains record of shares at each price tick in the range $\left[ \mathtt{price\\_base}, \mathtt{price\\_base} + \mathtt{tick\\_size} \cdot (\mathtt{L2\\_MEM\\_SIZE} - 1) \right)$
+- Maintains record of shares at each price tick in the range $\left[ \mathtt{price\\_base}, \mathtt{price\\_base} + \mathtt{tick\\_size} \cdot (\mathtt{L2\\_MEM\\_SIZE} - 1) \right]$
     - Maintains register of existence of shares at each price tick
     - This architecture is further discussed in the Tradeoffs & Design Choices section below
 - Supplies BBO with next-best price level & shares upon depletion of a price level in the BBO
@@ -90,15 +97,11 @@ Since the individual ITCH messages are consecutively packed within the payload o
 
 Therefore, a 4-byte wide window that enters the pipeline in 1 cycle could contain relevant ITCH data from two different ITCH messages, massively complicating the logic needed to parse this naively.
 
-#### Delayed Sliding Window
+#### Shifted Sliding Window
 
-Instead, noticing that the 'tracking number' and 'timestamp' fields, present in all ITCH messages at byte positions [3:10], are not relevant information to this simplified design, we allow the network parser module to cut these two fields out, sending the beginning of the ITCH message 2 cycles later, without compromising latency.
+To resolve the issue of byte offset, we keep a sliding window of the stream to the ITCH parser, such that the relevant fields may be 4-to-1 MUX selected from the window based on the byte offset. Sizing the sliding window to cover the whole message allows for all fields to be extracted at once.
 
-Furthermore, to resolve the issue of byte offset, we keep a 12-byte sliding window of the stream to the ITCH parser, such that the relevant fields may be 4-to-1 MUX selected from the window based on the byte offset. Note that the 12-byte size also handles the issue of concatenating 8-byte fields such as order IDs from the 4-byte wide stream.
-
-#### Chosen Architecture: Message-Length Shifted Sliding Window
-
-Another possible solution is to allow the message length fields of the MoldUDP64 packets to pass to the ITCH parser, allowing the ITCH parser to keep track of bytes left in the message, determining the beginning of the next message length field and ITCH message accordingly. To avoid needing to parse content from multiple messages in a cycle, we still employ the sliding window from solution 1 by delaying the processing of the first few bits of the second message for a cycle, but not delaying later bytes of the message for no impact on the latency. Furthermore, enlarging the sliding window to cover the whole message allows for all fields to be extracted at once.
+We also allow the message length fields of the MoldUDP64 packets to pass to the ITCH parser, allowing the ITCH parser to keep track of bytes left in the message, determining the beginning of the next message length field and ITCH message accordingly. To avoid needing to parse content from multiple messages in a cycle, we still employ the sliding window from solution 1 by delaying the processing of the first few bits of the second message for a cycle, but not delaying later bytes of the message for no impact on the latency.
 
 ### L3 Order Book
 
@@ -158,15 +161,15 @@ Because most orders exist close to the top of the book $\pm$ a few dollars, and 
 
 #### Address Mapping
 
-As previously mentioned, for stocks priced above 1 dollar per share, the tick size is 0.5 cents or 1 cent. To cover both of these cases, we design for a configuration with tick size of 0.5 cents. Then considering the tick offset, we require a bijective function to map the following sets: $\{\text{OFFSET_BASE} + 50 k\} \to {k}$ for integer $k \in [0, \text{L2_SIZE} - 1]$ (not necessarily in this order). This serves to calculate the address to access the L2 memory structure with.
+As previously mentioned, for stocks priced above 1 dollar per share, the tick size is 0.5 cents or 1 cent. To cover both of these cases, we design for a configuration with tick size of 0.5 cents. Then considering the tick offset, we require a bijective function to map the following sets: $\left{\mathtt{OFFSET\\_BASE} + 50 k\\right} \to {k}$ for integer $k \in \left[0, \mathtt{L2\\_SIZE} - 1\right]$ (not necessarily in this order). This serves to calculate the address to access the L2 memory structure with.
 
-**Option 1**: The obvious solution is to subtract OFFSET_BASE and divide by 50. Division by 50 (which is not a power of 2) would cost significant logic, and have a latency of around 1-2 cycles. Since the latency of the L2 book affects the latency during BBO depletions (the L2 register array must be updated to the same state as what the BBO received before a next best bid/offer lookup may occur), this option may be too expensive latency-wise, especially since no other work is possible to be done in parallel.
+**Option 1**: The obvious solution is to subtract $\mathtt{OFFSET\\_BASE}$ and divide by 50. Division by 50 (which is not a power of 2) would cost significant logic, and have a latency of around 1-2 cycles. Since the latency of the L2 book affects the latency during BBO depletions (the L2 register array must be updated to the same state as what the BBO received before a next best bid/offer lookup may occur), this option may be too expensive latency-wise, especially since no other work is possible to be done in parallel.
 
 **Option 2** (taken): Directly divide by 2 and truncate the upper bits. For a L2 price ladder sized as a power of 2, $50 / 2 = 25$ is coprime with the size, so the multiples of 25 in range cover all integers mod the size, although out of order. The benefit of this approach is that it costs 0 logic and only routing delay to calculate the address from the price.
 
-However, the priority encoder to find the next best existing price will need take this different order into account. Since different OFFSET_BASE values mod L2_SIZE result in wildly different orderings of the address space, the best solution would still be to maintain the register array in order. Note that since the register array only needs to be written to as a result of a share count modification, which in turn requires a memory structure access, we may maintain a lookup table of the address space to the actual ordering at no cost to latency.
+However, the priority encoder to find the next best existing price will need take this different order into account. Since different $\mathtt{OFFSET\\_BASE}$ values mod $\mathtt{L2\\_SIZE}$ result in wildly different orderings of the address space, the best solution would still be to maintain the register array in order. Note that since the register array only needs to be written to as a result of a share count modification, which in turn requires a memory structure access, we may maintain a lookup table of the address space to the actual ordering at no cost to latency.
 
-The reverse mappings of ordering to address space and price are necessary during a next best bid/offer lookup; the address space to access the aggregate shares at the selected price level, and the actual price to supply to the BBO module. While the calculation of price / address space from the ordering is simpler (a multiplication by 50 followed by adding the OFFSET_BASE), it was later determined that it could not fit into a single cycle in addition to address decoding for a memory primitive. Thus, we also maintain the reverse mapping of ordering to address space AND ordering to shares at the corresponding price in another memory structure to cut one cycle from the latency.
+The reverse mappings of ordering to address space and price are necessary during a next best bid/offer lookup; the address space to access the aggregate shares at the selected price level, and the actual price to supply to the BBO module. While the calculation of price / address space from the ordering is simpler (a multiplication by 50 followed by adding the $\mathtt{OFFSET\\_BASE}$), it was later determined that it could not fit into a single cycle in addition to address decoding for a memory primitive. Thus, we also maintain the reverse mapping of ordering to address space AND ordering to shares at the corresponding price in another memory structure to cut one cycle from the latency.
 
 ## Verification & Testing
 
