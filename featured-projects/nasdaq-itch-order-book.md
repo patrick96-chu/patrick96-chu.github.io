@@ -161,7 +161,7 @@ Because most orders exist close to the top of the book $\pm$ a few dollars, and 
 
 #### Address Mapping
 
-As previously mentioned, for stocks priced above 1 dollar per share, the tick size is 0.5 cents or 1 cent. To cover both of these cases, we design for a configuration with tick size of 0.5 cents. Then considering the tick offset, we require a bijective function to map the following sets: $\left\{\mathtt{OFFSET\\_BASE} + 50 k \right\} \to \left\{k \right\}$ for integer $k \in \left[0, \mathtt{L2\\_SIZE} - 1\right]$ (not necessarily in this order). This serves to calculate the address to access the L2 memory structure with.
+As previously mentioned, for stocks priced above 1 dollar per share, the tick size is 0.5 cents or 1 cent. To cover both of these cases, we design for a configuration with tick size of 0.5 cents. Then considering the tick offset, we require a bijective function to map the following sets: ${\mathtt{OFFSET\\_BASE} + 50 k} \rightarrow {k}$ for integer $k \in \left[0, \mathtt{L2\\_SIZE} - 1\right]$ (not necessarily in this order). This serves to calculate the address to access the L2 memory structure with.
 
 **Option 1**: The obvious solution is to subtract $\mathtt{OFFSET\\_BASE}$ and divide by 50. Division by 50 (which is not a power of 2) would cost significant logic, and have a latency of around 1-2 cycles. Since the latency of the L2 book affects the latency during BBO depletions (the L2 register array must be updated to the same state as what the BBO received before a next best bid/offer lookup may occur), this option may be too expensive latency-wise, especially since no other work is possible to be done in parallel.
 
