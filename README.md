@@ -47,9 +47,9 @@ Welcome to my portfolio! I'm an MIT EECS undergrad interested in Mechatronics an
 
 <img src="/assets/6.1910 Pipe Chart.png" height="600" alt="Pipelined Processor Diagram">
 
-* **Summary:** In an individual design project, I architected and optimized a highly concurrent 7-stage pipelined processor in a Bluespec-based HDL framework. Accelerating matrix multiplication by implementing a dedicated Multiply-Accumulate (MAC) module, FIFO weight buffer, and circular data/input buffer, I achieved 2nd place out of hundreds of student & staff, with 100x faster runtime vs. the baseline 5-stage processor.
+* **Summary:** In an individual design project, I architected and optimized a highly concurrent 7-stage pipelined processor in a Bluespec-based HDL framework. Accelerating matrix multiplication by implementing a dedicated Multiply-Accumulate (MAC) module, FIFO weight buffer, and circular data/input buffer, I achieved 3rd place out of hundreds of student & staff, with 100x faster runtime vs. the baseline 5-stage processor.
 
-The processor was tested for functionality of all RISC-V 32-bit base instructions. The runtime was determined by counting the number of cycles to run a test program involving printing input & output of a 3-layer neural network, infering a digit 0-9 from a 28 by 28 pixel greyscale image.
+The processor was tested for functionality of all RISC-V 32-bit base instructions. The runtime was determined by counting the number of cycles to run a test program involving printing input & output of a 3-layer neural network, inferring a digit 0-9 from a 28 by 28 pixel greyscale image.
 
 Stats:
 - Clock period: 340 ps
