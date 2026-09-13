@@ -15,7 +15,7 @@ Welcome to my portfolio! I'm an MIT EECS undergrad interested in Mechatronics an
 
 <img src="/assets/Block Diagram 2.png" width="800" alt="Block Diagram">
 
-*SystemVerilog; Artix UltraScale+; 312.5 MHz (19.2 ns Tick-to-Signal Latency)*
+*SystemVerilog; Artix UltraScale+; 312.5 MHz (19.2 ns Feed Handler Latency)*
 
 * **Summary:** A SystemVerilog project designing a low-latency FPGA design to parse the NASDAQ ITCH 5.0 protocol and construct an order book to return the best bid and offers at any given time.
 * **Skills:** SystemVerilog, Vivado, Verilator, Cocotb, GTKWave, Python

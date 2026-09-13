@@ -25,7 +25,7 @@ A SystemVerilog project designing an FPGA design to parse the NASDAQ ITCH 5.0 pr
 | **Clock Frequency ($F_{\text{max}}$)** | **312.5 MHz** (3.2 ns clock period), WNS = 0.000 ns |
 | **Feed Protocols** | NASDAQ ITCH 5.0 (UDP) |
 | **Ingress Bus Format** | 32-bit AXI4-Stream |
-| **Tick-to-Signal Latency** | **6 Clock Cycles (19.2 ns)** |
+| **Feed Handler Latency** | **6 Clock Cycles (19.2 ns)** |
 | **L3 Order Book Capacity** | Hash Table: 2,048 Sets, 8 Ways (**16,384 slots**) |
 | **L3 Collision Resolution** | 8-Entry Fully Associative Spillover CAM |
 | **BBO Register Depth** | Depth-2 (Top-of-Book + Next Best) |
